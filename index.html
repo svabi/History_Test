@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Тестирование</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --primary-color: #222222;
+            --correct-color: #04e400;
+            --incorrect-color: #ff1900;
+            --bg-color: #f7f7f7;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-top: 10px;
+        }
+
+        h3 {
+            display: block;
+            font-size: 1.17em;
+            margin-block-start: 5px;
+            margin-block-end: 15px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #000000;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background: #000000;
+        }
+
+        #test-container {
+            margin-top: 20px;
+        }
+
+        .question {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .options {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .option {
+            display: flex;
+            margin: 10px;
+            font-size: 25px;
+            gap: 5px;
+        }
+
+        .option.correct label{
+            color: var(--correct-color);
+        }
+
+        .option.incorrect label {
+            color: var(--incorrect-color);
+
+        }
+
+        #progress-container {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            z-index: 999;
+        }
+
+        @media (max-width: 600px) {
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            #progress-container {
+                position: static;
+                margin: 10px auto;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+        #scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            padding: 20px 30px;
+            font-size: 25px;
+            background-color: var(--primary-color);;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        #scroll-top-btn:hover {
+            background: #000000;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"] + label {
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            line-height: 24px;
+            display: inline-block;
+            user-select: none;
+        }
+
+        /* Внешний круг */
+        input[type="radio"] + label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            background-color: white;
+            transition: background-color 0.3s;
+        }
+
+        /* При выборе — заливается */
+        input[type="radio"]:checked + label::before {
+            background-color: #000000;
+        }
+
+        /* Предпросмотр при наведении — полузаливка */
+        .option:hover input[type="radio"]:not(:checked) + label::before {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <button class="prev-btn" disabled>⬅ Предыдущая</button>
+        <button class="next-btn" disabled>Следующая ➡</button>
+    </div>
+
+    <h1>Тестовая страница <span id="page-number">1</span></h1>
+
+    <div id="progress-container">
+        <div id="progress">✅ Правильных ответов: <span id="correct-count">0</span> / <span id="total-count">0</span></div>
+    </div>
+
+    <div id="test-container"></div>
+
+    <div class="navigation">
+        <button class="prev-btn" disabled>⬅ Предыдущая</button>
+        <button class="next-btn" disabled>Следующая ➡</button>
+    </div>
+
+    <button id="scroll-top-btn" title="Наверх">↑ Наверх</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
